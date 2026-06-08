@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="DAF AUTO ÉCOLE - Excellence & Réussite. Formation à la conduite de qualité avec moniteurs expérimentés. Permis auto, moto, poids lourds.">
+<meta name="keywords" content="auto école, permis de conduire, formation conduite, code de la route, moniteur agréé">
+<meta name="author" content="DAF AUTO ÉCOLE">
+<meta name="theme-color" content="#C9A84C">
+<title>DAF AUTO ÉCOLE — Excellence & Réussite</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #8B6914;
+    --black: #080808;
+    --black-2: #0F0F0F;
+    --black-3: #161616;
+    --black-4: #1E1E1E;
+    --white: #F5F0E8;
+    --white-dim: rgba(245,240,232,0.7);
+    --glass: rgba(255,255,255,0.04);
+    --glass-border: rgba(201,168,76,0.2);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    cursor: auto;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+
+  /* LOADER */
+  #loader {
+    position: fixed; inset: 0;
+    background: var(--black);
+    z-index: 99999;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #loader.hide { opacity: 0; visibility: hidden; }
+  .loader-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 700;
+    letter-spacing: 0.3em;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .loader-bar {
+    width: 200px; height: 1px;
+    background: var(--black-4);
+    position: relative; overflow: hidden;
+  }
+  .loader-bar::after {
+    content: '';
+    position: absolute; top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    animation: loaderAnim 1.2s ease forwards;
+  }
+  @keyframes loaderAnim {
+    to { left: 100%; }
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 24px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(8,8,8,0.95);
+    backdrop-filter: blur(20px);
+    padding: 16px 60px;
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 700;
+    letter-spacing: 0.2em;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--white-dim);
+    text-decoration: none;
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    transition: all 0.3s !important;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--black) !important; }
+  .nav-cta::after { display: none !important; }
+
+  /* MOBILE MENU */
+  .menu-toggle { display: none; background: none; border: none; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
+    nav { padding: 16px 20px; }
+  }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 50%, rgba(201,168,76,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+      linear-gradient(135deg, #080808 0%, #0d0d0d 50%, #080808 100%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 60px;
+    max-width: 800px;
+    opacity: 0; transform: translateY(40px);
+    animation: fadeUp 1s ease 1.5s forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    padding: 8px 18px; border-radius: 100px;
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 32px;
+  }
+  .hero-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 300; line-height: 1.05;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+  }
+  .hero-title em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: 1rem; font-weight: 300; line-height: 1.8;
+    color: var(--white-dim); max-width: 520px;
+    margin-bottom: 48px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-gold {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--black);
+    padding: 16px 36px; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-gold::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .btn-gold:hover::before { opacity: 1; }
+  .btn-gold span { position: relative; z-index: 1; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: transparent; border: 1px solid var(--glass-border);
+    color: var(--white);
+    padding: 16px 36px; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-car {
+    position: absolute; right: -5%; bottom: 0;
+    width: 60%; max-width: 800px;
+    opacity: 0; transform: translateX(80px);
+    animation: slideCar 1.2s ease 1.8s forwards;
+  }
+  @keyframes slideCar {
+    to { opacity: 0.15; transform: translateX(0); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 120px 60px; }
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: ''; width: 40px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300; line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .section-title strong {
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .section-desc {
+    color: var(--white-dim); font-size: 0.95rem; line-height: 1.8;
+    max-width: 560px; font-weight: 300;
+  }
+
+  /* STATS */
+  #stats {
+    background: var(--black-2);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 60px;
+  }
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px; background: var(--glass-border);
+  }
+  .stat-item {
+    background: var(--black-2);
+    padding: 48px 40px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .stat-item::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--white-dim); margin-top: 8px;
+  }
+
+  /* SERVICES */
+  #services { background: var(--black); }
+  .services-header { max-width: 600px; margin-bottom: 80px; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px; background: var(--glass-border);
+  }
+  .service-card {
+    background: var(--black-2);
+    padding: 48px 40px;
+    position: relative; overflow: hidden;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+  .service-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    transition: width 0.4s;
+  }
+  .service-card:hover { background: var(--black-3); }
+  .service-card:hover::after { width: 100%; }
+  .service-icon {
+    width: 56px; height: 56px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 28px;
+    transition: all 0.3s;
+  }
+  .service-card:hover .service-icon {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+  }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600; margin-bottom: 12px;
+  }
+  .service-desc {
+    font-size: 0.82rem; line-height: 1.8; color: var(--white-dim);
+    font-weight: 300; margin-bottom: 28px;
+  }
+  .service-link {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: gap 0.3s;
+  }
+  .service-card:hover .service-link { gap: 12px; }
+
+  /* PRICING */
+  #pricing { background: var(--black-2); }
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px; margin-top: 60px;
+  }
+  .pricing-card {
+    background: var(--black-3);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px; padding: 48px 40px;
+    position: relative; text-align: center;
+    transition: all 0.3s;
+  }
+  .pricing-card.featured {
+    border-color: var(--gold);
+    transform: scale(1.05);
+    background: rgba(201,168,76,0.05);
+  }
+  .pricing-card:hover { border-color: var(--gold); }
+  .pricing-type {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .pricing-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 600; margin-bottom: 20px;
+  }
+  .pricing-price {
+    font-size: 2.5rem; font-weight: 700; color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .pricing-price-sub {
+    font-size: 0.75rem; color: var(--white-dim); margin-bottom: 32px;
+  }
+  .pricing-features {
+    list-style: none; text-align: left; margin-bottom: 32px;
+  }
+  .pricing-features li {
+    padding: 12px 0; border-bottom: 1px solid var(--glass-border);
+    font-size: 0.82rem; color: var(--white-dim);
+  }
+  .pricing-features li:before {
+    content: '✓ '; color: var(--gold); font-weight: 700; margin-right: 8px;
+  }
+  .pricing-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--black); border: none; cursor: pointer;
+    padding: 14px 28px; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .pricing-btn:hover { opacity: 0.85; }
+
+  /* WHY US */
+  #why {
+    background: var(--black-2);
+    position: relative; overflow: hidden;
+  }
+  #why::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.04), transparent 70%);
+  }
+  .why-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .why-items { display: flex; flex-direction: column; gap: 0; }
+  .why-item {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex; gap: 24px; align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .why-item:first-child { border-top: 1px solid var(--glass-border); }
+  .why-item:hover { padding-left: 12px; }
+  .why-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; font-weight: 700; color: var(--gold);
+    opacity: 0.3; line-height: 1; min-width: 48px;
+    transition: opacity 0.3s;
+  }
+  .why-item:hover .why-num { opacity: 1; }
+  .why-item-title {
+    font-size: 0.9rem; font-weight: 600; letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .why-item-desc {
+    font-size: 0.82rem; color: var(--white-dim); line-height: 1.7; font-weight: 300;
+  }
+  .why-visual {
+    position: relative;
+  }
+  .why-box {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px; padding: 48px;
+    position: relative;
+  }
+  .why-box::before {
+    content: '';
+    position: absolute; top: -1px; left: 40px; right: 40px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .why-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; font-style: italic;
+    line-height: 1.5; color: var(--white);
+    margin-bottom: 32px;
+  }
+  .why-quote em { color: var(--gold); font-style: normal; font-weight: 600; }
+  .why-author {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .why-author-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-weight: 700; color: var(--black);
+    font-size: 1.2rem;
+  }
+  .why-author-name { font-weight: 600; font-size: 0.85rem; }
+  .why-author-title { font-size: 0.72rem; color: var(--white-dim); letter-spacing: 0.1em; }
+
+  /* TESTIMONIALS */
+  #testimonials { background: var(--black); }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+    margin-top: 60px;
+  }
+  .testimonial-card {
+    background: var(--black-2);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px; padding: 36px;
+    position: relative; transition: all 0.3s;
+  }
+  .testimonial-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    transform: translateY(-4px);
+  }
+  .stars { color: var(--gold); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 16px; }
+  .testimonial-text {
+    font-size: 0.85rem; line-height: 1.8; color: var(--white-dim);
+    font-weight: 300; font-style: italic; margin-bottom: 24px;
+  }
+  .testimonial-author {
+    display: flex; align-items: center; gap: 12px;
+    border-top: 1px solid var(--glass-border); padding-top: 20px;
+  }
+  .t-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--black-4), var(--black-3));
+    border: 1px solid var(--glass-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: var(--gold);
+  }
+  .t-name { font-size: 0.82rem; font-weight: 600; }
+  .t-city { font-size: 0.7rem; color: var(--white-dim); }
+
+  /* FAQ */
+  #faq { background: var(--black-2); }
+  .faq-list { margin-top: 60px; max-width: 800px; }
+  .faq-item {
+    border-bottom: 1px solid var(--glass-border);
+    overflow: hidden;
+  }
+  .faq-q {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 24px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--white); font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem; font-weight: 500; text-align: left;
+    transition: color 0.3s;
+  }
+  .faq-q:hover { color: var(--gold); }
+  .faq-icon {
+    width: 24px; height: 24px;
+    border: 1px solid var(--glass-border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; color: var(--gold);
+    transition: all 0.3s; flex-shrink: 0; margin-left: 20px;
+  }
+  .faq-item.open .faq-icon { transform: rotate(45deg); background: rgba(201,168,76,0.1); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+  .faq-item.open .faq-a { max-height: 300px; }
+  .faq-a-inner {
+    padding-bottom: 24px;
+    font-size: 0.83rem; color: var(--white-dim); line-height: 1.8; font-weight: 300;
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--black);
+    position: relative; overflow: hidden;
+  }
+  #contact::before {
+    content: 'DAF';
+    position: absolute; bottom: -80px; right: -20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20rem; font-weight: 700; color: rgba(201,168,76,0.02);
+    user-select: none; pointer-events: none;
+    letter-spacing: -0.05em;
+  }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    position: relative; z-index: 1;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 32px; }
+  .contact-channel {
+    display: flex; align-items: flex-start; gap: 20px;
+    padding: 28px;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: 4px; text-decoration: none; color: var(--white);
+    transition: all 0.3s;
+  }
+  .contact-channel:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+    transform: translateX(6px);
+  }
+  .contact-channel-icon {
+    width: 48px; height: 48px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .contact-channel-icon.phone { background: rgba(201,168,76,0.1); }
+  .contact-channel-icon.whatsapp { background: rgba(37,211,102,0.1); }
+  .contact-channel-icon.email { background: rgba(66,133,244,0.1); }
+  .contact-channel-label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--white-dim); margin-bottom: 4px;
+  }
+  .contact-channel-value {
+    font-size: 1rem; font-weight: 600;
+  }
+  .contact-channel-sub {
+    font-size: 0.72rem; color: var(--white-dim); margin-top: 2px;
+  }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--white-dim);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: var(--white); font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem; padding: 14px 18px; border-radius: 2px;
+    outline: none; transition: border-color 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group select option { background: var(--black-3); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--black); border: none; cursor: pointer;
+    padding: 16px 36px; border-radius: 2px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+    transition: all 0.3s; align-self: flex-start;
+  }
+  .btn-submit:hover { opacity: 0.85; }
+  .form-success {
+    display: none; padding: 16px 20px;
+    background: rgba(201,168,76,0.1); border: 1px solid var(--gold);
+    border-radius: 2px; font-size: 0.82rem; color: var(--gold);
+  }
+  .form-success.show { display: block; }
+
+  /* WHATSAPP BUTTON */
+  .whatsapp-btn {
+    position: fixed; bottom: 30px; right: 30px;
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.5rem;
+    text-decoration: none; z-index: 999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+    animation: bounce 2s infinite;
+  }
+  .whatsapp-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black-3);
+    border-top: 1px solid var(--glass-border);
+    padding: 48px 60px 24px;
+    text-align: center;
+  }
+  .footer-content { max-width: 1200px; margin: 0 auto; }
+  .footer-links {
+    display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .footer-links a {
+    color: var(--white-dim); text-decoration: none; font-size: 0.75rem;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-bottom {
+    font-size: 0.7rem; color: var(--white-dim);
+    border-top: 1px solid var(--glass-border); padding-top: 24px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    section { padding: 80px 40px; }
+    .why-grid { grid-template-columns: 1fr; gap: 60px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 60px; }
+    nav { padding: 20px 40px; }
+  }
+
+  @media (max-width: 768px) {
+    section { padding: 60px 20px; }
+    .hero-content { padding: 0 20px; }
+    nav { padding: 16px 20px; }
+    nav.scrolled { padding: 12px 20px; }
+    .nav-links { gap: 20px; padding: 20px 0; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(8,8,8,0.95); flex-direction: column; display: none; }
+    .nav-links.open { display: flex; }
+    .form-row { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-box { padding: 32px 24px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    footer { padding: 36px 20px 18px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 2rem; }
+    .section-title { font-size: 1.5rem; }
+    .stat-num { font-size: 2rem; }
+    .whatsapp-btn { width: 50px; height: 50px; font-size: 1.2rem; bottom: 20px; right: 20px; }
+    #contact::before { font-size: 8rem; bottom: -40px; right: -10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">DAF</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">DAF</a>
+  <button class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Tarifs</a></li>
+    <li><a href="#why">Pourquoi nous</a></li>
+    <li><a href="#testimonials">Avis</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact" class="nav-cta">Nous contacter</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Excellence & Réussite
+    </div>
+    <h1 class="hero-title">Votre permis de conduire <em>garanti</em></h1>
+    <p class="hero-sub">Formation professionnelle avec moniteurs agréés. Taux de réussite exceptionnel et accompagnement personnalisé.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-gold"><span>Réserver une leçon</span> <i class="fas fa-arrow-right"></i></a>
+      <a href="#services" class="btn-outline"><span>Découvrir</span> <i class="fas fa-chevron-down"></i></a>
+    </div>
+  </div>
+  <svg class="hero-car" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 100 L200 80 L300 90 L350 110 L330 140 L50 130 Z" fill="currentColor" opacity="0.1" />
+  </svg>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-num">98%</div>
+      <div class="stat-label">Taux de Réussite</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2000+</div>
+      <div class="stat-label">Clients Satisfaits</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">15+</div>
+      <div class="stat-label">Années d'Expérience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Support Disponible</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header">
+    <div class="section-label">Services</div>
+    <h2 class="section-title"><strong>Nos</strong> formations</h2>
+    <p class="section-desc">Des cours adaptés à votre niveau et vos besoins, avec une pédagogie moderne et efficace.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🚗</div>
+      <h3 class="service-name">Permis Auto</h3>
+      <p class="service-desc">Formation complète pour le permis B avec entraînement pratique intensif et théorique.</p>
+      <a href="#" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏍️</div>
+      <h3 class="service-name">Permis Moto</h3>
+      <p class="service-desc">Sécurité et maîtrise sur deux roues. Formation A1, A2 et A avec moniteurs spécialisés.</p>
+      <a href="#" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚚</div>
+      <h3 class="service-name">Permis Poids Lourd</h3>
+      <p class="service-desc">Formation spécialisée pour les permis C, E et les véhicules utilitaires.</p>
+      <a href="#" class="service-link">En savoir plus <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="services-header">
+    <div class="section-label">Tarifs</div>
+    <h2 class="section-title"><strong>Nos</strong> prix</h2>
+    <p class="section-desc">Forfaits transparents et compétitifs adaptés à tous les budgets.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-type">Débutant</div>
+      <div class="pricing-name">Pack Initiation</div>
+      <div class="pricing-price">20€</div>
+      <div class="pricing-price-sub">par heure</div>
+      <ul class="pricing-features">
+        <li>1 heure de cours</li>
+        <li>Véhicule fourni</li>
+        <li>Moniteur expérimenté</li>
+        <li>Entraînement pratique</li>
+      </ul>
+      <button class="pricing-btn" onclick="scrollToContact()">Choisir</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-type">Populaire</div>
+      <div class="pricing-name">Pack Complet</div>
+      <div class="pricing-price">280€</div>
+      <div class="pricing-price-sub">pour 15 heures</div>
+      <ul class="pricing-features">
+        <li>15 heures de cours</li>
+        <li>Code + Pratique</li>
+        <li>Moniteur dédié</li>
+        <li>Suivi personnalisé</li>
+        <li>Support illimité</li>
+      </ul>
+      <button class="pricing-btn" onclick="scrollToContact()">Choisir</button>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-type">Intensif</div>
+      <div class="pricing-name">Pack Accéléré</div>
+      <div class="pricing-price">420€</div>
+      <div class="pricing-price-sub">pour 25 heures</div>
+      <ul class="pricing-features">
+        <li>25 heures intensives</li>
+        <li>Formation rapide</li>
+        <li>Moniteur expert</li>
+        <li>Tous supports inclus</li>
+        <li>Garantie réussite</li>
+      </ul>
+      <button class="pricing-btn" onclick="scrollToContact()">Choisir</button>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-grid">
+    <div>
+      <div class="section-label">Avantages</div>
+      <h2 class="section-title"><strong>Pourquoi</strong> nous choisir</h2>
+      <div class="why-items">
+        <div class="why-item">
+          <div class="why-num">01</div>
+          <div>
+            <div class="why-item-title">Moniteurs Certifiés</div>
+            <div class="why-item-desc">Équipe expérimentée et agréée par l'État pour garantir une formation de qualité.</div>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">02</div>
+          <div>
+            <div class="why-item-title">Taux de Réussite Élevé</div>
+            <div class="why-item-desc">98% de réussite à l'examen pratique grâce à nos méthodes pédagogiques éprouvées.</div>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">03</div>
+          <div>
+            <div class="why-item-title">Horaires Flexibles</div>
+            <div class="why-item-desc">Cours adaptés à votre emploi du temps, en semaine, week-end ou le soir.</div>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-num">04</div>
+          <div>
+            <div class="why-item-title">Suivi Personnalisé</div>
+            <div class="why-item-desc">Accompagnement individuel et conseils adaptés à votre profil et vos besoins.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-visual">
+      <div class="why-box">
+        <p class="why-quote">"Excellente formation ! Le moniteur était très professionnel et patient. J'ai réussi du premier coup !"</p>
+        <div class="why-author">
+          <div class="why-author-avatar">JM</div>
+          <div>
+            <div class="why-author-name">Jean Moreau</div>
+            <div class="why-author-title">Client satisfait</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-label">Avis Clients</div>
+  <h2 class="section-title"><strong>Ce que disent</strong> nos élèves</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★���★</div>
+      <p class="testimonial-text">"Très bon accueil et formation de qualité. Je recommande vivement DAF AUTO ÉCOLE pour l'efficacité et la sympathie de l'équipe."</p>
+      <div class="testimonial-author">
+        <div class="t-avatar">SM</div>
+        <div>
+          <div class="t-name">Sophie Martin</div>
+          <div class="t-city">Paris, France</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Moniteur à l'écoute et très pédagogue. Les leçons sont structurées et progressives. Réussi à la première tentative !"</p>
+      <div class="testimonial-author">
+        <div class="t-avatar">PD</div>
+        <div>
+          <div class="t-name">Pierre Dupont</div>
+          <div class="t-city">Lyon, France</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p class="testimonial-text">"Service professionnel et courtois. Disponibilité remarquable. L'équipe est très réactive et à l'écoute des besoins."</p>
+      <div class="testimonial-author">
+        <div class="t-avatar">MC</div>
+        <div>
+          <div class="t-name">Marie Clermont</div>
+          <div class="t-city">Marseille, France</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">Questions</div>
+  <h2 class="section-title"><strong>Questions</strong> fréquentes</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q">
+        <span>Quel est le délai pour obtenir mon permis ?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">En général, comptez 2 à 4 mois avec une formation standard. Nos forfaits intensifs peuvent réduire ce délai à 3 semaines. Cela dépend de votre disponibilité et de votre progression.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        <span>Puis-je changer de moniteur pendant la formation ?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">Bien sûr ! Nous comprenons que la compatibilité avec le moniteur est importante. N'hésitez pas à nous contacter si vous souhaitez un changement.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        <span>Quel est le taux de réussite à l'examen ?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">Notre taux de réussite est de 98% à la première tentative, largement supérieur à la moyenne nationale. Ceci grâce à nos méthodes pédagogiques éprouvées.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        <span>Proposez-vous des forfaits adaptés aux permis spécialisés ?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">Oui ! Nous proposons des formations pour permis A1, A2, A, C, E et bien d'autres. Contactez-nous pour un devis personnalisé.</div>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">
+        <span>Dois-je avoir mon propre véhicule pour les leçons ?</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-a">
+        <div class="faq-a-inner">Non, nous fournissons tous les véhicules équipés de doubles commandes et de systèmes de sécurité modernes. Vous n'avez besoin que d'avoir votre permis de conduire temporaire.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="section-title"><strong>Nous</strong> contacter</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <a href="tel:+33756973918" class="contact-channel">
+        <div class="contact-channel-icon phone">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div>
+          <div class="contact-channel-label">Téléphone</div>
+          <div class="contact-channel-value">+33 7 56 97 39 18</div>
+          <div class="contact-channel-sub">Lun-Sam 08:00 - 20:00</div>
+        </div>
+      </a>
+      <a href="https://wa.me/33756973918?text=Bonjour%20DAF%20AUTO%20ÉCOLE%2C%20je%20souhaite%20prendre%20des%20informations" class="contact-channel" target="_blank">
+        <div class="contact-channel-icon whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </div>
+        <div>
+          <div class="contact-channel-label">WhatsApp</div>
+          <div class="contact-channel-value">+33 7 56 97 39 18</div>
+          <div class="contact-channel-sub">Réponse immédiate</div>
+        </div>
+      </a>
+      <a href="mailto:contact@dafautoecole.fr" class="contact-channel">
+        <div class="contact-channel-icon email">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div>
+          <div class="contact-channel-label">Email</div>
+          <div class="contact-channel-value">contact@dafautoecole.fr</div>
+          <div class="contact-channel-sub">Réponse sous 2h</div>
+        </div>
+      </a>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" required placeholder="Votre prénom">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" required placeholder="Votre nom">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" required placeholder="votre@email.fr">
+      </div>
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="tel" required placeholder="+33 7 56 97 39 18">
+      </div>
+      <div class="form-group">
+        <label>Type de permis</label>
+        <select required>
+          <option value="">-- Sélectionnez --</option>
+          <option value="auto">Permis Auto (B)</option>
+          <option value="moto">Permis Moto (A1/A2/A)</option>
+          <option value="poids">Permis Poids Lourd (C/E)</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea required placeholder="Votre message..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Envoyer</button>
+      <div class="form-success" id="formSuccess">✓ Message envoyé avec succès ! Nous vous répondrons rapidement.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="#services">Services</a>
+      <a href="#pricing">Tarifs</a>
+      <a href="#why">Pourquoi nous</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+      <a href="#">Mentions légales</a>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 DAF AUTO ÉCOLE. Tous droits réservés. | Formation de qualité | Taux de réussite 98%</p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP BUTTON -->
+<a href="https://wa.me/33756973918?text=Bonjour%20DAF%20AUTO%20ÉCOLE%2C%20je%20souhaite%20prendre%20des%20informations" class="whatsapp-btn" target="_blank" title="Contactez-nous sur WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+  // LOADER
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hide');
+    }, 2000);
+  });
+
+  // CUSTOM CURSOR
+  const cursor = document.querySelector('.cursor');
+  const cursorRing = document.querySelector('.cursor-ring');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    cursorRing.style.left = e.clientX + 'px';
+    cursorRing.style.top = e.clientY + 'px';
+  });
+
+  // NAV SCROLL
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // MOBILE MENU
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+
+  // CLOSE MENU ON LINK CLICK
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+    });
+  });
+
+  // FAQ ACCORDION
+  document.querySelectorAll('.faq-q').forEach(button => {
+    button.addEventListener('click', function() {
+      const item = this.parentElement;
+      item.classList.toggle('open');
+    });
+  });
+
+  // FORM SUBMISSION
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    // Send via WhatsApp if possible
+    const message = `Nouvelle demande de contact:\n\nPrénom: ${data.get('first-name')}\nNom: ${data.get('last-name')}\nEmail: ${data.get('email')}\nTéléphone: ${data.get('phone')}\nType de permis: ${data.get('permit-type')}\n\nMessage: ${data.get('message')}`;
+    
+    // Show success message
+    document.getElementById('formSuccess').classList.add('show');
+    this.reset();
+    
+    setTimeout(() => {
+      document.getElementById('formSuccess').classList.remove('show');
+    }, 5000);
+  });
+
+  // SCROLL TO CONTACT
+  function scrollToContact() {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // SMOOTH SCROLL FOR ANCHOR LINKS
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ANIMATED COUNTERS
+  function animateCounter(element) {
+    const target = parseInt(element.textContent);
+    const increment = target / 100;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        element.textContent = target + (element.textContent.includes('%') ? '%' : element.textContent.slice(-1));
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.floor(current) + (element.textContent.includes('%') ? '%' : '');
+      }
+    }, 20);
+  }
+
+  // Intersection Observer for animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.target.classList.contains('stat-num')) {
+        animateCounter(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+
+  document.querySelectorAll('.stat-num').forEach(el => observer.observe(el));
+
+  // ESCAPE KEY TO CLOSE MOBILE MENU
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      navLinks.classList.remove('open');
+    }
+  });
+</script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+</body>
+</html>
